@@ -14,6 +14,7 @@ public class PlayerScript : MonoBehaviour
     public float speed = 2f;
     bool grounded = false;
     public float castDist = 1f;
+    public float ledgeDist = 1f;
     public float jumpPower = 2f;
     public float gravityScale = 5f;
     public float gravityFall = 40f;
@@ -72,15 +73,32 @@ public class PlayerScript : MonoBehaviour
         RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, castDist);
         Debug.DrawRay(transform.position, Vector2.down * castDist, Color.red);
 
-        if(hit.collider != null && hit.transform.tag == "Ground")
+        RaycastHit2D check = Physics2D.Raycast(new Vector2(transform.position.x - 0.25f, transform.position.y + 0.2f), Vector2.right, ledgeDist);
+        Debug.DrawRay(new Vector3(transform.position.x - 0.25f, transform.position.y + 0.2f, transform.position.z), Vector2.right * ledgeDist, Color.blue);
+
+        RaycastHit2D hold = Physics2D.Raycast(new Vector2(transform.position.x - 0.25f, transform.position.y - 0.05f), Vector2.right, ledgeDist);
+        Debug.DrawRay(new Vector3(transform.position.x - 0.25f, transform.position.y - 0.05f, transform.position.z), Vector2.right * ledgeDist, Color.green);
+
+        if (hit.collider != null && hit.transform.tag == "Ground")
         {
             myAnim.SetBool("jumping", false);
+            myAnim.SetBool("holding", false);
             grounded = true;
         }
         else
         {
             myAnim.SetBool("jumping", true);
             grounded = false;
+        }
+
+        if (check.collider == null && hold.collider != null && myBody.velocity.y <= 0f)
+        {
+            moveSpeed = 0f;
+            myBody.gravityScale = 0f;
+            myBody.velocity = Vector2.zero;
+            grounded = true;
+            myAnim.SetBool("jumping", false);
+            myAnim.SetBool("holding", true);
         }
 
         myBody.velocity = new Vector3(moveSpeed, myBody.velocity.y, 0f);
