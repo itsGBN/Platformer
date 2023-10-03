@@ -41,8 +41,15 @@ public class PlayerCollsion : MonoBehaviour
     {
         if (collision.gameObject.name == "StoneDoor")
         {
-            myScript.names = "Main";
+            myScript.names = "Game2";
             myScript.transStart = false;
+            myBody.bodyType = RigidbodyType2D.Static;
+        }
+        if (collision.gameObject.name == "StoneDoor1")
+        {
+            myScript.names = "Win";
+            myScript.transStart = false;
+            myBody.bodyType = RigidbodyType2D.Static;
         }
     }
 }

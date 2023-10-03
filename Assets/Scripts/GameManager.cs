@@ -9,4 +9,8 @@ public class GameManager : MonoBehaviour
     {
         SceneManager.LoadScene("Game");
     }
+    public void ResetGame()
+    {
+        SceneManager.LoadScene("Main");
+    }
 }

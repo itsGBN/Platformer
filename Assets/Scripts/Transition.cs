@@ -27,7 +27,7 @@ public class Transition : MonoBehaviour
         myRenderer.color = new Color(0f, 0f, 0f, xfloat);
         if (transStart) 
         {
-            if (xfloat >= 0f) xfloat -= 0.1f; 
+            if (xfloat >= 0f) xfloat -= 0.05f; 
         }
 
         else
